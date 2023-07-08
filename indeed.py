@@ -32,8 +32,9 @@ soup = BeautifulSoup(driver.page_source,'html5lib')
 results = soup.find(class_='jobsearch-LeftPane')
 job_elems=results.find_all('div', class_='cardOutline')
 
-print(job_elems)
-pages = np.arange(0,15) #20 each page
+print(len(job_elems))
+
+pages = np.arange(1,11)
 
 for pages in pages:
   for job_elem in job_elems:
@@ -70,7 +71,7 @@ for pages in pages:
     # df3 = pd.concat([df3, df2], ignore_index=True)
 
     # dff.to_csv("Naukri.com_Data_Collection.csv", index = False)
-    dff.to_excel("New_Outputs.xlsx", index = False)
+    dff.to_excel("Output.xlsx", index = False)
     
     print(dff)
 
@@ -78,20 +79,5 @@ for pages in pages:
 
   time.sleep(0.5)
 
-  # script = 'your JavaScript goes here'
-  # element = driver.find_element_by_*('your element identifier goes here')
-  # driver.execute_script(script, element)
-  driver.find_element(By.XPATH, '/html/body/div[1]/div[4]/div/div/section[2]/div[3]/div/a[2]  ').click()
-  # /html/body/div[1]/div[4]/div/div/section[2]/div[3]/div/a[2]
-  # //*[@id="root"]/div[4]/div/div/section[2]/div[3]/div/a[2]
-
-  time.sleep(0.5)
-
-
-time.sleep(15)
+time.sleep(15)  
 driver.close()
-
-
-
-
-# driver.close() #END OPERATION
