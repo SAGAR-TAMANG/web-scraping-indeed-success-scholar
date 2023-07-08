@@ -38,46 +38,69 @@ pages = np.arange(1,11)
 
 for pages in pages:
   for job_elem in job_elems:
-    # URL to apply for the job     
-    URL = job_elem.find('a',class_='title ellipsis').get('href')
-    # print(URL)
-    
     # Post Title
-    T = job_elem.find('a',class_='title ellipsis')
+    T = job_elem.find('a',class_='jcs-JobTitle css-jspxzf eu4oa1w0')
     Title=T.text
-    # print("Job Title: " + Title.text)
+    print(Title)
     
-    C = job_elem.find('a', class_='subTitle ellipsis fleft')
-    Company=C.text
-    # print("Company: " + Company.text)
+    # Description
+    D = job_elem.find('div', class_='job-snippet')
+    Description = D.encode('utf-8')
+    print(Description)
 
+    # Experience Reqd
     E = job_elem.find('span', class_='ellipsis fleft expwdth')
     if E is None:
       Exp = "Not-Mentioned"
     else:
-      Exp = E.text
+      # Exp = E.text
+      Exp = 'From The Description'
     print(Exp)
-    # print('Experience: ' + Exp.text)
-    # print(" "*2)
 
-    H= job_elem.find('span', class_='fleft postedDate')
-    History=H.text
+    # Company
+    C = job_elem.find('span', class_='companyName')
+    Company=C.text
+    print(Company)
 
-    # df=df.append({'Title':Title, 'Company':Company,'URL':URL}, ignore_index = True)
-    # df = pd.DataFrame([[Title, Company, URL]], columns=['Title','Company','URL'])
-    dff = pd.concat([dff, pd.DataFrame([[Title, Exp, History, Company, URL]], columns = ['Job Title', 'Experience Required', 'Posted', 'Company','URL'])], ignore_index=True)
-    # Second Way using Concat:
-    # df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-    # df3 = pd.concat([df3, df2], ignore_index=True)
+    # City
+    C2 = job_elem.find('div', class_='companyLocation')
+    City=C2.text
+    print(City)
 
-    # dff.to_csv("Naukri.com_Data_Collection.csv", index = False)
-    dff.to_excel("Output.xlsx", index = False)
-    
+    # Address
+    A = job_elem.find('div', class_='companyLocation')
+    Address=A.text
+    print(Address)
+
+    # Salary Range
+    S = job_elem.find('div', class_='attribute_snippet')
+    Salary=S.encode('utf-8')
+    print(Salary)
+
+    # Date Posted
+    D = job_elem.find('span', class_='date')
+    Date=D.text
+    print(Date)
+
+    # Site
+    S = 'Indeed.com'
+    Site=S
+
+    #URL
+    U = job_elem.find('a',class_='jcs-JobTitle css-jspxzf eu4oa1w0').get('href')
+    URL = U
+    print(URL)
+
+    dff = pd.concat([dff, pd.DataFrame([[Title, Description, Exp, Company, City, Address, Salary, Date, Site, URL]], columns = ['Job Title','Description', 'Experience Reqd', 'Company', 'City', 'Address', 'Salary Range', 'Date Posted', 'Site', 'URL'])], ignore_index=True)
     print(dff)
 
-  driver.execute_script("window.scrollTo(0,(document.body.scrollHeight) - 1500)")
-
-  time.sleep(0.5)
+    # dff.to_csv("Naukri.com_Data_Collection.csv", index = False)
+    dff.to_excel("Outputs.xlsx", index = False)
+  
+  driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/div[1]/button/svg').click()
+  time.sleep(0.2)
+  driver.execute_script("window.scrollTo(0,(document.body.scrollHeight) - 1000)")
+  driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/div[1]/button/svg/title').click()
 
 time.sleep(15)  
 driver.close()
