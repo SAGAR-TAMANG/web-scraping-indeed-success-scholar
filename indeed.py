@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
 dff = pd.DataFrame(columns=['Job Title','Posted', 'Company','URL'])
-
+  
 url = "https://in.indeed.com/jobs?q=&l=India"
 # Observation: Page1: https://www.naukri.com/it-jobs Page2: https://www.naukri.com/it-jobs-2
 
